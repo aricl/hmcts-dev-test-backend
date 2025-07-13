@@ -1,10 +1,6 @@
 package uk.gov.hmcts.reform.dev.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +16,8 @@ import java.time.LocalDateTime;
 @Setter
 public class Event {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_generator")
+    @SequenceGenerator(name = "events_generator", sequenceName = "events_seq", allocationSize = 1)
     private Long id;
     private String title;
 
