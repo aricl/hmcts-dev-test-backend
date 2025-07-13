@@ -28,7 +28,7 @@ spring:
     name: Dev Test
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:/Users/adamjohnready/test
+    url: jdbc:h2:file:/Users/adamjohnready/hmcts-dev-test-backend
     username: sa
     password: ""
 #    properties:

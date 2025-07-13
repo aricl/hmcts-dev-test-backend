@@ -6,6 +6,6 @@ import uk.gov.hmcts.reform.dev.models.Event;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    @Query(value = "SELECT * FROM events WHERE id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM EVENTS WHERE id = ?1", nativeQuery = true)
     List<Event> getEventsByName(String title);
 }
