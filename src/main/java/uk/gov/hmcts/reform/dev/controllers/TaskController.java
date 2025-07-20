@@ -9,6 +9,7 @@ import uk.gov.hmcts.reform.dev.models.Task;
 import java.util.List;
 
 @RestController
+@RequestMapping("/task")
 public class TaskController {
     private final TaskRepository taskRepository;
 
@@ -16,25 +17,25 @@ public class TaskController {
         this.taskRepository = taskRepository;
     }
 
-    @PostMapping("/task")
+    @PostMapping("")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         Task savedTask = taskRepository.save(task);
         return new ResponseEntity<>(savedTask, HttpStatus.CREATED);
     }
 
-    @GetMapping("/task/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
         Task task = taskRepository.findById(id).orElse(null);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @GetMapping("/task")
+    @GetMapping("")
     public ResponseEntity<List<Task>> getTasks() {
         List<Task> tasks = taskRepository.findAll();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
-    @PutMapping("/task/{id}/status")
+    @PutMapping("/{id}/status")
     public ResponseEntity<Task> createTask(@PathVariable Long id, @RequestBody() String status) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
@@ -44,7 +45,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @DeleteMapping("/task/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
         taskRepository.findById(id).ifPresent(taskRepository::delete);
 
