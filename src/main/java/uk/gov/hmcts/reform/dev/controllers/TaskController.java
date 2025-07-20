@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.dev.TaskRepository;
 import uk.gov.hmcts.reform.dev.models.Task;
 
+import java.util.List;
+
 @RestController
 public class TaskController {
     private final TaskRepository taskRepository;
@@ -24,5 +26,11 @@ public class TaskController {
     public ResponseEntity<Task> getTask(@PathVariable String id) {
         Task task = taskRepository.findById(Long.parseLong(id)).get();
         return new ResponseEntity<>(task, HttpStatus.OK);
+    }
+
+    @GetMapping("/task")
+    public ResponseEntity<List<Task>> getTasks() {
+        List<Task> tasks = taskRepository.findAll();
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 }
