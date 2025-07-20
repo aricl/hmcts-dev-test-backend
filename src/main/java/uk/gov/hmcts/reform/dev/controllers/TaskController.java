@@ -26,6 +26,10 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
         Task task = taskRepository.findById(id).orElse(null);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
@@ -40,6 +44,8 @@ public class TaskController {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
             task.setStatus(status);
+        } else {
+            return ResponseEntity.notFound().build();
         }
 
         return new ResponseEntity<>(task, HttpStatus.OK);
@@ -47,8 +53,12 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
-        taskRepository.findById(id).ifPresent(taskRepository::delete);
-
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        Task task = taskRepository.findById(id).orElse(null);
+        if (task != null) {
+            taskRepository.delete(task);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
