@@ -23,8 +23,8 @@ public class TaskController {
     }
 
     @GetMapping("/task/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable String id) {
-        Task task = taskRepository.findById(Long.parseLong(id)).orElse(null);
+    public ResponseEntity<Task> getTask(@PathVariable Long id) {
+        Task task = taskRepository.findById(id).orElse(null);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
@@ -35,8 +35,8 @@ public class TaskController {
     }
 
     @PutMapping("/task/{id}/status")
-    public ResponseEntity<Task> createTask(@PathVariable String id, @RequestBody() String status) {
-        Task task = taskRepository.findById(Long.parseLong(id)).orElse(null);
+    public ResponseEntity<Task> createTask(@PathVariable Long id, @RequestBody() String status) {
+        Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
             task.setStatus(status);
         }
@@ -45,8 +45,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/task/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable String id) {
-        taskRepository.findById(Long.parseLong(id)).ifPresent(taskRepository::delete);
+    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+        taskRepository.findById(id).ifPresent(taskRepository::delete);
 
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
