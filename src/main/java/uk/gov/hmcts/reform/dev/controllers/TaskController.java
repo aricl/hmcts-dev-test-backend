@@ -24,7 +24,7 @@ public class TaskController {
 
     @GetMapping("/task/{id}")
     public ResponseEntity<Task> getTask(@PathVariable String id) {
-        Task task = taskRepository.findById(Long.parseLong(id)).get();
+        Task task = taskRepository.findById(Long.parseLong(id)).orElse(null);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
@@ -32,5 +32,15 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasks() {
         List<Task> tasks = taskRepository.findAll();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+    @PutMapping("/task/{id}/status")
+    public ResponseEntity<Task> createTask(@PathVariable String id, @RequestBody() String status) {
+        Task task = taskRepository.findById(Long.parseLong(id)).orElse(null);
+        if (task != null) {
+            task.setStatus(status);
+        }
+
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 }
