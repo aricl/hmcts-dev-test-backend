@@ -46,3 +46,5 @@ spring:
         dialect: ${DATABASE_DIALECT}
     database-platform: ${DATABASE_DIALECT}
     defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update

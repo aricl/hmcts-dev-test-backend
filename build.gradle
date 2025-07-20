@@ -179,6 +179,8 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.dev.Application'
