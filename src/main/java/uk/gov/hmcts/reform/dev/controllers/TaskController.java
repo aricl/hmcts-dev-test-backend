@@ -43,4 +43,11 @@ public class TaskController {
 
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
+
+    @DeleteMapping("/task/{id}")
+    public ResponseEntity<Task> deleteTask(@PathVariable String id) {
+        taskRepository.findById(Long.parseLong(id)).ifPresent(taskRepository::delete);
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }
