@@ -1,5 +1,5 @@
 server:
-  port: 4000
+  port: ${SERVER_PORT}
   shutdown: "graceful"
 
 # If you want to use a database then uncomment the `group:, readiness: and include: "db"`
@@ -27,10 +27,10 @@ spring:
   application:
     name: Dev Test
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:/Users/adamjohnready/hmcts-dev-test-backend
-    username: sa
-    password: ""
+    driver-class-name: ${DATABASE_DRIVER}
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 #    properties:
 #      charSet: UTF-8
 #    hikari:
@@ -43,6 +43,6 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-    database-platform: org.hibernate.dialect.H2Dialect
+        dialect: ${DATABASE_DIALECT}
+    database-platform: ${DATABASE_DIALECT}
     defer-datasource-initialization: true
