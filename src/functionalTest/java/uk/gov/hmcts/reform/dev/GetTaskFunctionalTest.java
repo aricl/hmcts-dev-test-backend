@@ -16,7 +16,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class CreateTaskFunctionalTest {
+class GetTaskFunctionalTest {
 
     @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
@@ -28,16 +28,16 @@ class CreateTaskFunctionalTest {
     }
 
     @Test
-    void createTaskSuccessfully() {
-        String dueDate = LocalDateTime.now().plusDays(3).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    void getTaskSuccessfully() {
+        String dueDate = LocalDateTime.now().plusDays(2).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         Map<String, Object> payload = Map.of(
-            "title", "Wear a hat",
-            "description", "All day",
+            "title", "Eat B vitamins",
+            "description", "I can't eat them for you",
             "status", "open",
             "due_date", dueDate
         );
 
-        Response response = given()
+        Response createResponse = given()
             .contentType(ContentType.JSON)
             .body(payload)
             .when()
@@ -45,19 +45,17 @@ class CreateTaskFunctionalTest {
             .then()
             .extract().response();
 
-        Assertions.assertEquals(
-            201,
-            response.statusCode(),
-            "Expected 201 Created"
-        );
+        Long id = createResponse.jsonPath().getLong("id");
 
-        Assertions.assertNotNull(
-            response.jsonPath().get("id"),
-            "Task ID should be present"
-        );
-        Assertions.assertEquals(
-            payload.get("title"),
-            response.jsonPath().getString("title")
-        );
+        Response getResponse = given()
+            .contentType(ContentType.JSON)
+            .body(payload)
+            .when()
+            .get("/task/" + id)
+            .then()
+            .extract().response();
+
+        Assertions.assertEquals(id, getResponse.jsonPath().getLong("id"));
+        Assertions.assertEquals(payload.get("title"), getResponse.jsonPath().getString("title"));
     }
 }
