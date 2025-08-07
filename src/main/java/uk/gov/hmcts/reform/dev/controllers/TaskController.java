@@ -40,10 +40,11 @@ public class TaskController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<Task> createTask(@PathVariable Long id, @RequestBody() String status) {
+    public ResponseEntity<Task> createTask(@PathVariable Long id, @RequestParam("taskStatus") String status) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
             task.setStatus(status);
+            taskRepository.save(task);
         } else {
             return ResponseEntity.notFound().build();
         }
